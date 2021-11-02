@@ -20,20 +20,45 @@ def run_kmeans(n, data):
 	results = machine.predict(data)
 	centroids = machine.cluster_centers_
 	ssd = machine.inertia_
-	print(ssd)
 	pyplot.scatter(data[:,0], data[:,1], c=results)
 	pyplot.scatter(centroids[:,0], centroids[:,1], c='red', marker="*", s=200)
 	pyplot.savefig("scatterplot_color_" + str(n) + ".png")
 	pyplot.close()
+	return ssd
+
+result = []
+for i in range(7):
+	ssd = run_kmeans(i+1, data)	
+	result.append(ssd)
+
+print(result)
+
+pyplot.plot(range(7), result)
+pyplot.savefig("ssd.png")
+pyplot.close()
+
+result_diff = []
+for i,x  in enumerate(result):
+	diff = result[i-1] - x
+	result_diff.append(diff)
+
+print(result_diff)
 
 
-run_kmeans(1, data)
-run_kmeans(2, data)
-run_kmeans(3, data)
-run_kmeans(4, data)
-run_kmeans(5, data)
-run_kmeans(6, data)
-run_kmeans(7, data)
+
+
+
+
+
+
+
+# ssd1 = run_kmeans(1, data)
+# ssd2 = run_kmeans(2, data)
+# ssd3 = run_kmeans(3, data)
+# ssd4 = run_kmeans(4, data)
+# ssd5 = run_kmeans(5, data)
+# ssd6 = run_kmeans(6, data)
+# ssd7 = run_kmeans(7, data)
 
 
 
