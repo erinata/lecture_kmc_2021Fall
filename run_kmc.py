@@ -22,50 +22,48 @@ def run_kmeans(n, data):
 	results = machine.predict(data)
 	centroids = machine.cluster_centers_
 	ssd = machine.inertia_
+	silhouette = 0
 	if n > 1:
-		print(silhouette_score(data, machine.labels_, metric='euclidean'))
+		silhouette = silhouette_score(data, machine.labels_, metric='euclidean')
 	pyplot.scatter(data[:,0], data[:,1], c=results)
 	pyplot.scatter(centroids[:,0], centroids[:,1], c='red', marker="*", s=200)
 	pyplot.savefig("scatterplot_color_" + str(n) + ".png")
 	pyplot.close()
-	return ssd
+	return ssd, silhouette
 
 # result = []
 # for i in range(7):
 # 	ssd = run_kmeans(i+1, data)	
 # 	result.append(ssd)
 
-result = [ run_kmeans(i+1, data) for i in range(7)]
-print(result)
+result= [ run_kmeans(i+1, data) for i in range(7)]
 
-pyplot.plot(range(7), result)
+ssd_result = [ i[0] for i in result] 
+silhouette_result = [ i[1] for i in result][1:]
+
+
+pyplot.plot(range(1,8), ssd_result)
 pyplot.savefig("ssd.png")
 pyplot.close()
 
-# result_diff = []
-# for i,x  in enumerate(result):
-# 	diff = result[i-1] - x
-# 	result_diff.append(diff)
+# # ssd_result_diff = []
+# # for i,x  in enumerate(result):
+# # 	diff = result[i-1] - x
+# # 	ssd_result_diff.append(diff)
 
-result_diff = [ result[i-1] - x for i,x  in enumerate(result)][1:]
-print(result_diff)
+ssd_result_diff = [ ssd_result[i-1] - x for i,x  in enumerate(ssd_result)][1:]
 
-
-
-
-
+pyplot.plot(range(2,8), silhouette_result)
+pyplot.savefig("silhouette.png")
+pyplot.close()
 
 
+print("\nssd: \n", ssd_result)
+print("\nssd differences: \n", ssd_result_diff)
 
 
-# ssd1 = run_kmeans(1, data)
-# ssd2 = run_kmeans(2, data)
-# ssd3 = run_kmeans(3, data)
-# ssd4 = run_kmeans(4, data)
-# ssd5 = run_kmeans(5, data)
-# ssd6 = run_kmeans(6, data)
-# ssd7 = run_kmeans(7, data)
-
-
+print("\nsilhouette scores: \n", silhouette_result)
+print("\nmax silhouette scores: \n", max(silhouette_result))
+print("\nnumber of cluster with max silhouette scores: \n", silhouette_result.index(max(silhouette_result))+2)
 
 
