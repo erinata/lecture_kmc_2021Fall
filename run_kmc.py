@@ -2,6 +2,8 @@ import pandas
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as pyplot
 
+from sklearn.metrics import silhouette_score
+
 data = pandas.read_csv("dataset.csv")
 
 # print(data)
@@ -20,6 +22,8 @@ def run_kmeans(n, data):
 	results = machine.predict(data)
 	centroids = machine.cluster_centers_
 	ssd = machine.inertia_
+	if n > 1:
+		print(silhouette_score(data, machine.labels_, metric='euclidean'))
 	pyplot.scatter(data[:,0], data[:,1], c=results)
 	pyplot.scatter(centroids[:,0], centroids[:,1], c='red', marker="*", s=200)
 	pyplot.savefig("scatterplot_color_" + str(n) + ".png")
