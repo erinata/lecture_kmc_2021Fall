@@ -64,6 +64,7 @@ print("\nssd differences: \n", ssd_result_diff)
 
 print("\nsilhouette scores: \n", silhouette_result)
 print("\nmax silhouette scores: \n", max(silhouette_result))
-print("\nnumber of cluster with max silhouette scores: \n", silhouette_result.index(max(silhouette_result))+2)
+print("\nnumber of cluster with max silhouette scores: \n", 
+	silhouette_result.index(max(silhouette_result))+2)
 
 
